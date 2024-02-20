@@ -11,8 +11,7 @@ export default function Job() {
 
 	return (
 		<div>
-			<JobListing />
-			{jobId !== "list" ? <div>job {jobId}</div> : <></>}
+			<div>job {jobId}</div>
 		</div>
 	);
 }
