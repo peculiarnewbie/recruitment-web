@@ -7,92 +7,68 @@ export const EmploymentTypes = {
 export type EmploymentTypeKeys =
 	(typeof EmploymentTypes)[keyof typeof EmploymentTypes];
 
-export class Job {
-	_id!: string;
-	title!: string;
-	time!: number;
+export type Job = {
+	_id: string;
+	title: string;
+	time: number;
 	description?: string;
-	type!: EmploymentTypeKeys;
-}
+	type: EmploymentTypeKeys;
+};
 
-export class Candidate {
-	_id!: string;
-	name!: string;
-	info_birthdate?: number;
-	info_residence_city!: string;
-	info_residence_province!: string;
-	info_residence_country!: string;
-	info_summary?: string;
-	contact_email!: string;
-	contact_phone?: string;
-	contact_website?: string;
-	// education?: Education[];
-	// experience?: Experience[];
+export type Candidate = {
+	_id: string;
+	name: string;
+	info: {
+		birthdate?: number;
+		residence: {
+			city: string;
+			province: string;
+			country: string;
+		};
+		summary?: string;
+	};
+	contact: {
+		email: string;
+		phone?: string;
+		website?: string;
+	};
+	education?: Education[];
+	experience?: Experience[];
 	files?: File[];
 	appliedJobs?: Job[];
-}
+};
 
-// export class Education extends Realm.Object {
-// 	degree!: string;
-// 	institute?: Institution;
-// 	startDate!: number;
-// 	graduationDate!: number;
-// 	description?: string;
+export type Education = {
+	degree: string;
+	institute: Institution;
+	startdate: number;
+	graduationDate?: number;
+	description?: string;
+};
 
-// 	static schema: ObjectSchema = {
-// 		name: "Education",
-// 		embedded: true,
-// 		properties: {
-// 			degree: "string",
-// 			institute: "Institution",
-// 			startDate: "number",
-// 			graduationDate: "number",
-// 			description: "string?",
-// 		},
-// 	};
-// }
+export type Institution = {
+	_id: string;
+	name: string;
+};
 
-// export type EducationType = Omit<Education, keyof Realm.Object>;
+export type Experience = {
+	position: string;
+	company: string;
+	startDate: number;
+	stopDate?: number;
+	description?: string;
+};
+export type File = {
+	url: string;
+	uploaded: number;
+	size: number;
+};
 
-// export class Institution extends Realm.Object {
-// 	_id!: Realm.BSON.ObjectId;
-// 	name!: string;
-
-// 	static schema: ObjectSchema = {
-// 		name: "Institution",
-// 		properties: {
-// 			_id: { type: "objectId", default: () => new Realm.BSON.ObjectId() },
-// 			name: "string",
-// 		},
-// 	};
-// }
-
-// export type InstitutionType = Omit<Institution, keyof Realm.Object>;
-
-// export class Experience extends Realm.Object {
-// 	position!: string;
-// 	company!: string;
-// 	startDate!: number;
-// 	stopDate?: number;
-// 	description?: string;
-
-// 	static schema: ObjectSchema = {
-// 		name: "Experience",
-// 		embedded: true,
-// 		properties: {
-// 			position: "string",
-// 			company: "string",
-// 			startDate: "number",
-// 			stopDate: "number?",
-// 			description: "string?",
-// 		},
-// 	};
-// }
-
-// export type ExperienceType = Omit<Experience, keyof Realm.Object>;
-
-export class File {
-	url!: string;
-	uploaded!: number;
-	size!: number;
-}
+export const generateInsertBody = (object: any, collection: string) => {
+	return JSON.stringify({
+		dataSource: "mongodb-atlas",
+		database: "recruitment-web",
+		collection: collection,
+		document: object,
+	});
+};
