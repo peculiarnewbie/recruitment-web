@@ -23,7 +23,7 @@ export default function App() {
 				<Meta />
 				<Links />
 			</head>
-			<body className=" ctp-mocha bg-ctp-base text-ctp-text">
+			<body className=" ctp-latte bg-ctp-base text-ctp-text">
 				<Outlet />
 				<ScrollRestoration />
 				<Scripts />
