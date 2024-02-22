@@ -1,21 +1,20 @@
-import { ActionFunctionArgs, json } from "@remix-run/cloudflare";
+import { ActionFunctionArgs } from "@remix-run/cloudflare";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { nanoid } from "nanoid";
-import { Candidate, File, generateInsertBody } from "~/mongodb/types";
+import { insertDocument } from "~/components/mongo-helper";
+import { Candidate } from "~/mongodb/types";
 
-export const action = async ({ request, context }: ActionFunctionArgs) => {
-	const url = context.env.DB_ENDPOINT_URL;
-
+export async function action({ context }: ActionFunctionArgs) {
 	const fileToPost = {
 		_id: nanoid(),
-		url: "actual one",
+		url: "layy",
 		uploaded: Date.now(),
 		size: 100,
 	};
 
 	const objectToPost: Candidate = {
 		_id: nanoid(),
-		name: "QT",
+		name: "Jon",
 		info: {
 			birthdate: 100,
 			residence: {
@@ -41,26 +40,8 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 		files: [fileToPost],
 	};
 
-	const postBody = generateInsertBody(objectToPost, "Candidates");
-
-	const requestURL = url + "/action/insertOne";
-
-	console.log(requestURL);
-
-	const res = await fetch(requestURL, {
-		body: postBody,
-		headers: {
-			Accept: "application/json",
-			apikey: context.env.DB_API_KEY,
-			"Content-Type": "application/json",
-		},
-		method: "POST",
-	});
-
-	const response = await res.json();
-
-	return json({ thing: "waow", res: JSON.stringify(response) });
-};
+	return await insertDocument(objectToPost, "Candidates", context);
+}
 
 export default function () {
 	const actionResponse = useActionData<typeof action>();
@@ -72,7 +53,7 @@ export default function () {
 					send
 				</button>
 			</form>
-			{actionResponse?.res}
+			{JSON.stringify(actionResponse)}
 		</div>
 	);
 }

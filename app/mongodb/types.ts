@@ -10,8 +10,8 @@ export type EmploymentTypeKeys =
 export type Job = {
 	_id: string;
 	title: string;
-	time: number;
-	description?: string;
+	posted: number;
+	description: string;
 	type: EmploymentTypeKeys;
 };
 
