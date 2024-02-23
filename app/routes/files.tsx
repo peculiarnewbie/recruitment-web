@@ -13,11 +13,9 @@ export async function action({ context, request }: ActionFunctionArgs) {
 		return new Response("Not found", { status: 404 });
 	}
 
-	const body = await obj.json();
+	console.log("obj=============================", obj);
 
-	console.log("obj=============================", body);
-
-	return json(body, { status: 200 });
+	return json(obj, { status: 200 });
 }
 
 export default function Profile() {
