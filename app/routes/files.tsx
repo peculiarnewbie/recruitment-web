@@ -13,7 +13,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
 	}
 	console.log("obj=============================", obj.body);
 
-	return json(obj.body, { status: 200 });
+	return json(obj, { status: 200 });
 }
 
 export default function Profile() {
