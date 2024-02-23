@@ -10,7 +10,7 @@ export async function action({ context }: ActionFunctionArgs) {
 	const authorizationUrl = workos.userManagement.getAuthorizationUrl({
 		provider: "authkit",
 
-		redirectUri: "http://localhost:8788/callback",
+		redirectUri: context.env.WORKOS_CALLBACK_URL,
 		clientId,
 	});
 
