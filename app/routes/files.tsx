@@ -3,19 +3,17 @@ import { useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
 export async function action({ context, request }: ActionFunctionArgs) {
-	console.log(
-		"==============================================hi========================="
-	);
 	const bucket: R2Bucket = context.env.R2_BUCKET;
-	console.log("bucket==========================================", bucket);
-	const obj: R2ObjectBody | null = await bucket.get("dummyFile.txt");
-	if (obj === null) {
+	const object: R2ObjectBody | null = await bucket.get("dummyFile.txt");
+	if (object === null) {
 		return new Response("Not found", { status: 404 });
 	}
 
-	console.log("obj=============================", obj);
+	const headers = new Headers();
+	object.writeHttpMetadata(headers);
+	headers.set("etag", object.httpEtag);
 
-	return json(obj, { status: 200 });
+	return json(object.body, { headers: headers });
 }
 
 export default function Profile() {
@@ -27,7 +25,7 @@ export default function Profile() {
 		console.log("calling effect");
 		if (data && downloadRef.current) {
 			const fileName = "dummy.txt";
-			const json = JSON.stringify(data),
+			const json = JSON.stringify(data.body),
 				blob = new Blob([json], { type: "octet/stream" }),
 				url = window.URL.createObjectURL(blob);
 
