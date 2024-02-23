@@ -3,8 +3,12 @@ import { useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
 export async function action({ context, request }: ActionFunctionArgs) {
+	const form = request.formData();
+
 	const bucket: R2Bucket = context.env.R2_BUCKET;
-	const object: R2ObjectBody | null = await bucket.get("dummyFile.txt");
+	const object: R2ObjectBody | null = await bucket.get(
+		(await form).get("fileName") as string
+	);
 	if (object === null) {
 		return new Response("Not found", { status: 404 });
 	}
@@ -14,7 +18,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
 	return json(text, { status: 200 });
 }
 
-export default function Profile() {
+export default function Files() {
 	const data = useActionData();
 
 	const downloadRef = useRef(null);
@@ -22,7 +26,7 @@ export default function Profile() {
 	useEffect(() => {
 		console.log("calling effect");
 		if (data && downloadRef.current) {
-			const fileName = "dummy.txt";
+			const fileName = "dummy.pdf";
 			const json = JSON.stringify(data),
 				blob = new Blob([json], { type: "octet/stream" }),
 				url = window.URL.createObjectURL(blob);
@@ -39,6 +43,7 @@ export default function Profile() {
 	return (
 		<div className="">
 			<form method="post">
+				<input type="text" name="fileName" />
 				<button type="submit">get file</button>
 			</form>
 			{JSON.stringify(data)}
