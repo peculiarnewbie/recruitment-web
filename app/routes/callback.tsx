@@ -21,8 +21,6 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 		clientId,
 	});
 
-	console.log("user==============================", user);
-
 	const cookieHeader = request.headers.get("Cookie");
 	const cookie = (await tokenCookie.parse(cookieHeader)) || {};
 
@@ -36,8 +34,6 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 		.sign(secret);
 
 	cookie.token = jwt;
-
-	console.log("jwt==============================", jwt);
 
 	return redirect("/profile", {
 		headers: {
