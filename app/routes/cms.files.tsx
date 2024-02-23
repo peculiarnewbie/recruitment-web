@@ -25,8 +25,7 @@ export default function Files() {
 		console.log("calling effect");
 		if (data && downloadRef.current) {
 			const fileName = "dummy.pdf";
-			const blob = new Blob([data]);
-			const url = window.URL.createObjectURL(blob);
+			const url = window.URL.createObjectURL(data);
 
 			const a = downloadRef.current as HTMLAnchorElement;
 			a.href = url;
