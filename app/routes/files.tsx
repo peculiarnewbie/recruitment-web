@@ -9,11 +9,9 @@ export async function action({ context, request }: ActionFunctionArgs) {
 		return new Response("Not found", { status: 404 });
 	}
 
-	const headers = new Headers();
-	object.writeHttpMetadata(headers);
-	headers.set("etag", object.httpEtag);
+	const text = await object.text();
 
-	return json(object.body, { headers: headers });
+	return json(text, { status: 200 });
 }
 
 export default function Profile() {
@@ -25,7 +23,7 @@ export default function Profile() {
 		console.log("calling effect");
 		if (data && downloadRef.current) {
 			const fileName = "dummy.txt";
-			const json = JSON.stringify(data.body),
+			const json = JSON.stringify(data),
 				blob = new Blob([json], { type: "octet/stream" }),
 				url = window.URL.createObjectURL(blob);
 
