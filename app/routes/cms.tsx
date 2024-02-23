@@ -13,7 +13,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 	try {
 		verifiedToken = await jwtVerify(cookie.token, secret);
 	} catch {
-		return json({ isAuthenticated: false }, { status: 401 });
+		return redirect("/401");
 	}
 
 	const user = verifiedToken.payload.user;
