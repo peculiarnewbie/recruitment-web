@@ -6,8 +6,6 @@ import { tokenCookie } from "~/components/cookies.server";
 export async function loader({ context, request }: LoaderFunctionArgs) {
 	const secret = new TextEncoder().encode(context.env.JWT_SECRET_KEY);
 
-	console.log("secret===========================================", secret);
-
 	const cookieHeader = request.headers.get("Cookie");
 	const cookie = (await tokenCookie.parse(cookieHeader)) || {};
 
