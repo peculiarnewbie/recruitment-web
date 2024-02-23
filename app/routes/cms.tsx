@@ -17,9 +17,9 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 	}
 
 	const user = verifiedToken.payload.user;
-	if (user.id !== "user_01HQAA2XS34WKPHHKFNWHVZ2T3") return redirect("/401");
+	if (user.id !== context.env.ADMIN_USER_ID) return redirect("/401");
 
-	return json({ isAuthenticated: true, user: user }, { status: 200 });
+	return json({ isAuthenticated: true }, { status: 200 });
 }
 
 export default function Cms() {
