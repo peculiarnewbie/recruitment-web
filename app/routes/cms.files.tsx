@@ -13,9 +13,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
 		return new Response("Not found", { status: 404 });
 	}
 
-	const text = await object.text();
-
-	return json(text, { status: 200 });
+	return json(object.body, { status: 200 });
 }
 
 export default function Files() {
@@ -27,9 +25,8 @@ export default function Files() {
 		console.log("calling effect");
 		if (data && downloadRef.current) {
 			const fileName = "dummy.pdf";
-			const json = JSON.stringify(data),
-				blob = new Blob([json], { type: "octet/stream" }),
-				url = window.URL.createObjectURL(blob);
+			const blob = new Blob([data]);
+			const url = window.URL.createObjectURL(blob);
 
 			const a = downloadRef.current as HTMLAnchorElement;
 			a.href = url;
