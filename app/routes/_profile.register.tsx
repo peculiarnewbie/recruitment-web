@@ -20,7 +20,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
 	const form = await request.formData();
 
 	const candidateData: Candidate = {
-		_id: nanoid(),
+		_id: form.get("_id") as string,
 		name: form.get("candidateName") as string,
 		info: {
 			residence: {
@@ -90,6 +90,7 @@ export default function Profile() {
 	return (
 		<div className=" container mx-auto">
 			<form className="flex flex-col gap-2 items-start" method="post">
+				<input type="text" hidden={true} name="_id" value={data.id} />
 				<div>
 					<p>name*</p>
 					<input
