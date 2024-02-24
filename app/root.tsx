@@ -62,7 +62,7 @@ export default function App() {
 			</head>
 			<body
 				className={`bg-ctp-base text-ctp-text ${
-					darkTheme ? "ctp-mocha" : "ctp-latte"
+					darkTheme ? "ctp-mocha dark" : "ctp-latte"
 				}`}
 			>
 				<Header />

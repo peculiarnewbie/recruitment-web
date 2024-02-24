@@ -4,6 +4,7 @@ import {
 	json,
 	redirect,
 } from "@remix-run/cloudflare";
+import { useLoaderData } from "@remix-run/react";
 import { WorkOS } from "@workos-inc/node";
 import { jwtVerify } from "jose";
 import { nanoid } from "nanoid";
@@ -11,7 +12,7 @@ import EducationList from "~/components/EducationList";
 import ExperienceList from "~/components/ExperienceList";
 import FileUpload from "~/components/FileUpload";
 import { tokenCookie } from "~/helpers/cookies.server";
-import { Candidate } from "~/helpers/types";
+import { Candidate, User } from "~/helpers/types";
 
 export async function action({ context }: ActionFunctionArgs) {
 	const candidateData: Candidate = {
@@ -49,33 +50,89 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 		return callWorkOS();
 	}
 
-	const user = verifiedToken.payload.user;
+	const user = verifiedToken.payload.user as User;
 	if (!user) return callWorkOS();
 
-	return json({ user: user }, { status: 200 });
+	return json(user, { status: 200 });
 }
 
 export default function Profile() {
 	return (
-		<div className=" container">
-			<form method="post">
-				<p>name</p>
-				<input name="candidateName" type="text" required={true} />
-				<p>email</p>
-				<input name="email" type="email" />
-				<p>birth date</p>
-				<input name="birthDate" type="date" required={true} />
-				<p>location</p>
+		<div className=" container mx-auto">
+			<form className="flex flex-col gap-2 items-start" method="post">
 				<div>
-					<input name="city" type="text" />
-					<input name="province" type="text" />
-					<input name="country" type="text" />
+					<p>name*</p>
+					<input
+						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+						name="candidateName"
+						type="text"
+						required={true}
+					/>
 				</div>
-				{/* perform validation */}
-				<p>phone</p>
-				<input name="phone" type="text" />
-				<p>website</p>
-				<input name="website" type="url" />
+				<div>
+					<p>email*</p>
+					<input
+						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+						name="email"
+						type="email"
+					/>
+				</div>
+				<div>
+					<p>birth date*</p>
+					<input
+						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+						name="birthDate"
+						type="date"
+						required={true}
+					/>
+				</div>
+				<div>
+					<p>location</p>
+					<div className="flex gap-4">
+						<div>
+							<p>city:</p>
+							<input
+								className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+								name="city"
+								type="text"
+							/>
+						</div>
+						<div>
+							<p>province:</p>
+							<input
+								className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+								name="province"
+								type="text"
+							/>
+						</div>
+
+						<div>
+							<p>country:</p>
+							<input
+								className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+								name="country"
+								type="text"
+							/>
+						</div>
+					</div>
+				</div>
+				{/* validate phone number */}
+				<div>
+					<p>phone</p>
+					<input
+						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+						name="phone"
+						type="text"
+					/>
+				</div>
+				<div>
+					<p>website</p>
+					<input
+						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
+						name="website"
+						type="url"
+					/>
+				</div>
 
 				<EducationList />
 
@@ -83,7 +140,12 @@ export default function Profile() {
 
 				<FileUpload />
 
-				<button type="submit">sign in</button>
+				<button
+					className="px-4 py-2 border-2 border-ctp-blue rounded-md bg-ctp-blue/30"
+					type="submit"
+				>
+					Register
+				</button>
 			</form>
 		</div>
 	);

@@ -5,7 +5,6 @@ import { dummyJobs } from "~/helpers/dummyData";
 import { useSelectedJobStore } from "./jobs";
 import { useEffect } from "react";
 import { findDocument } from "~/helpers/mongo-helper";
-import { Button } from "@chakra-ui/react";
 
 export const loader = async ({ context, params }: LoaderFunctionArgs) => {
 	if (params.jobId == undefined) return redirect("/404");

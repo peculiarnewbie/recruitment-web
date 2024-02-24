@@ -74,3 +74,11 @@ export const generateInsertBody = (object: any, collection: string) => {
 		document: object,
 	});
 };
+
+export type User = {
+	id: string;
+	email: string;
+	firstName: string;
+	lastName: string;
+	profilePictureUrl: string;
+};
