@@ -6,18 +6,47 @@ import {
 } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { WorkOS } from "@workos-inc/node";
+import dayjs from "dayjs";
 import { jwtVerify } from "jose";
 import { nanoid } from "nanoid";
 import EducationList from "~/components/EducationList";
 import ExperienceList from "~/components/ExperienceList";
 import FileUpload from "~/components/FileUpload";
 import { tokenCookie } from "~/helpers/cookies.server";
+import { insertDocument } from "~/helpers/mongo-helper";
 import { Candidate, User } from "~/helpers/types";
 
-export async function action({ context }: ActionFunctionArgs) {
+export async function action({ context, request }: ActionFunctionArgs) {
+	const form = await request.formData();
+
 	const candidateData: Candidate = {
 		_id: nanoid(),
+		name: form.get("candidateName") as string,
+		info: {
+			residence: {
+				city: form.get("city") as string,
+				province: form.get("province") as string,
+				country: form.get("country") as string,
+			},
+		},
+		contact: {
+			email: form.get("email") as string,
+		},
 	};
+
+	const birthDate = form.get("birthDate") as string;
+	if (birthDate) candidateData.info.birthdate = dayjs(birthDate).valueOf();
+
+	const phone = form.get("phone") as string;
+	if (phone) candidateData.contact.phone = phone;
+	const website = form.get("website") as string;
+	if (website) candidateData.contact.website = website;
+
+	const response = await insertDocument(candidateData, "Candidate", context);
+
+	const res = await response.json();
+
+	return redirect("/profile");
 }
 
 export async function loader({ context, request }: LoaderFunctionArgs) {
