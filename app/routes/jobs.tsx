@@ -7,36 +7,44 @@ import { dummyJobs } from "~/helpers/dummyData";
 import { create } from "zustand";
 import { useEffect } from "react";
 
-export type JobViewStore = {
-	jobView: boolean;
-	setJobView: (view: boolean) => void;
+export type selectedJobStore = {
+	selectedJob: string;
+	setSelectedJobId: (jobId: string) => void;
 };
 
-export const useJobViewStore = create<JobViewStore>()((set) => ({
-	jobView: false,
-	setJobView: (view: boolean) => set({ jobView: view }),
+export const useSelectedJobStore = create<selectedJobStore>()((set) => ({
+	selectedJob: "",
+	setSelectedJobId: (jobId: string) => set({ selectedJob: jobId }),
 }));
 
 export function loader({ context, request }: LoaderFunctionArgs) {
 	const url = new URL(request.url);
 	const routes = url.pathname.split("/");
 	let jobView = false;
-	if (routes[2]) {
+	let selectedJob = routes[2] ?? "";
+	if (selectedJob) {
 		jobView = true;
-		useJobViewStore.setState({ jobView: jobView });
 	}
 	console.log(routes);
-	return json({ jobs: dummyJobs, jobView: jobView }, { status: 200 });
+	return json(
+		{ jobs: dummyJobs, jobView: jobView, selectedJob: selectedJob },
+		{ status: 200 }
+	);
 }
 
 export default function Jobs() {
 	const data = useLoaderData<typeof loader>();
-	const { jobView } = useJobViewStore();
+	const { setSelectedJobId } = useSelectedJobStore();
+
+	useEffect(() => {
+		if (data.selectedJob) {
+			setSelectedJobId(data.selectedJob);
+		}
+	}, []);
 
 	return (
 		<div className=" container mx-auto">
-			<p>Jobs parent</p>
-			{jobView.toString()}
+			<div className="w-full text-center"> Jobs</div>
 			<div
 				className={`${data.jobView ? "flex flex-col sm:flex-row" : ""}`}
 			>

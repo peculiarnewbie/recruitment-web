@@ -24,9 +24,19 @@ function Header() {
 	return (
 		<header className=" shrink-0 flex justify-center bg-ctp-crust h-14 items-center">
 			<div className="container flex justify-between px-6">
-				<nav className="flex items-center">
-					<a href="/jobs">Jobs</a>
-					<a href="/profile">Profile</a>
+				<nav className="flex items-center gap-4 font-semibold">
+					<a
+						href="/jobs"
+						className=" border-b-2 border-transparent hover:border-ctp-blue"
+					>
+						Jobs
+					</a>
+					<a
+						href="/profile"
+						className=" border-b-2 border-transparent hover:border-ctp-blue"
+					>
+						Profile
+					</a>
 				</nav>
 				<div className="flex gap-4 items-center">
 					<fetcher.Form method="post">

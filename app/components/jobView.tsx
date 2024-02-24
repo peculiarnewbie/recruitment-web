@@ -1,13 +1,19 @@
 import { Job } from "~/helpers/types";
 import dayjs from "dayjs";
+import { useSelectedJobStore } from "~/routes/jobs";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
 export default function JobView(props: { job: Job; jobView: boolean }) {
+	const { selectedJob } = useSelectedJobStore();
 	return (
 		<form
-			className="transition-all duration-200 border-2 border-ctp-surface0 hover:border-ctp-blue flex rounded-md group min-w-72"
+			className={`transition-all duration-200 border-2 border-ctp-surface0 hover:border-ctp-blue flex rounded-md group min-w-72 ${
+				selectedJob == props.job._id
+					? "bg-ctp-blue/20 border-ctp-blue/40"
+					: ""
+			}`}
 			action={`/jobs/${props.job._id}`}
 			method="get"
 		>

@@ -14,8 +14,8 @@ export default function JobDetail() {
 
 	return (
 		<div className="grow">
-			<div className="flex justify-between p-2">
-				<h1 className=" text-5xl font-bold">{data.job?.title}</h1>
+			<div className="flex justify-between p-2 items-center">
+				<h1 className=" text-3xl font-bold">{data.job?.title}</h1>
 				<button className="p-2 bg-ctp-blue">Lamar</button>
 			</div>
 			<div>{data.job?._id}</div>
