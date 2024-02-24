@@ -10,7 +10,7 @@ export const loader = async ({ context, params }: LoaderFunctionArgs) => {
 	if (params.jobId == undefined) return redirect("/404");
 	const jobRes = await findDocument("Jobs", params.jobId, context);
 	//@ts-expect-error
-	const job = (await jobRes.json()).document;
+	const job: Job = (await jobRes.json()).document;
 
 	if (job == undefined) return redirect("/404");
 
@@ -27,7 +27,7 @@ export default function JobDetail() {
 	}, [data]);
 
 	return (
-		<div className="grow">
+		<div className="grow w-full flex flex-col gap-2 p-2">
 			<div className="flex justify-between p-2 items-center">
 				<h1 className=" text-3xl font-bold">{data.job?.title}</h1>
 				<Link
@@ -37,8 +37,21 @@ export default function JobDetail() {
 					Lamar
 				</Link>
 			</div>
-			<div>{data.job?._id}</div>
+			<div className="h-[2px] w-full bg-ctp-surface1" />
+			<h2 className=" font-semibold text-xl">Job Description</h2>
 			<div>{data.job?.description}</div>
+			<div>
+				<p>detail:</p>
+				<div>{data.job?.detail}</div>
+			</div>
+			<div>
+				<p>benefits:</p>
+				<ul>
+					{data.job.benefits.map((benefit) => (
+						<li>- {benefit}</li>
+					))}
+				</ul>
+			</div>
 		</div>
 	);
 }
