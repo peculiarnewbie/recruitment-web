@@ -16,7 +16,7 @@ export default function JobView(props: { job: Job }) {
 
 	return (
 		<div
-			className={`transition-all duration-200 border-2 border-ctp-surface0 hover:border-ctp-blue flex rounded-md justify-start  ${
+			className={`transition-all duration-200 border-2 border-ctp-surface0 hover:border-ctp-blue flex rounded-md justify-start group ${
 				selectedJob == props.job._id
 					? "bg-ctp-blue/20 border-ctp-blue/40"
 					: ""
