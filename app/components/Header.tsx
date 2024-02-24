@@ -4,18 +4,13 @@ import {
 	LoaderFunctionArgs,
 	json,
 } from "@remix-run/cloudflare";
-import { prefs } from "~/helpers/cookies.server";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-
-export async function loader({ request }: LoaderFunctionArgs) {
-	const cookieHeader = request.headers.get("Cookie");
-	const cookie = (await prefs.parse(cookieHeader)) || {};
-	return json({ darkTheme: cookie.darkTheme });
-}
+import { prefs, tokenCookie } from "~/helpers/cookies.server";
+import { Form, useFetcher, useLoaderData } from "@remix-run/react";
+import { loader } from "~/root";
 
 function Header() {
 	const fetcher = useFetcher();
-	let { darkTheme } = useLoaderData<typeof loader>();
+	let { darkTheme, isSignedIn } = useLoaderData<typeof loader>();
 
 	if (fetcher.formData?.has("darkTheme")) {
 		darkTheme = fetcher.formData.get("darkTheme") === "true";
@@ -31,12 +26,21 @@ function Header() {
 					>
 						Jobs
 					</a>
-					<a
-						href="/profile"
-						className=" border-b-2 border-transparent hover:border-ctp-blue"
-					>
-						Profile
-					</a>
+					{isSignedIn ? (
+						<a
+							href="/profile"
+							className=" border-b-2 border-transparent hover:border-ctp-blue"
+						>
+							Profile
+						</a>
+					) : (
+						<a
+							href="/register"
+							className=" border-b-2 border-transparent hover:border-ctp-blue"
+						>
+							Sign In
+						</a>
+					)}
 				</nav>
 				<div className="flex gap-4 items-center">
 					<fetcher.Form method="post">
@@ -60,7 +64,7 @@ function Header() {
 					<div className="h-8 w-[2px] bg-ctp-surface0 rounded-full" />
 					<a
 						target="_blank"
-						href="https://github.com/peculiarnewbie/frontend-workshop/tree/master/examples/remix-todo"
+						href="https://github.com/peculiarnewbie/recruitment-web"
 						className="bg-ctp-surface0 rounded-full p-1 border-ctp-surface0 hover:border-ctp-blue border"
 					>
 						<div className="scale-75">{github}</div>

@@ -12,6 +12,8 @@ export type Job = {
 	title: string;
 	posted: number;
 	description: string;
+	detail: string;
+	benefits: string[];
 	type: EmploymentTypeKeys;
 };
 
@@ -35,7 +37,7 @@ export type Candidate = {
 	education?: Education[];
 	experience?: Experience[];
 	files?: File[];
-	appliedJobs?: Job[];
+	appliedJobs?: string[];
 };
 
 export type Education = {
@@ -71,4 +73,12 @@ export const generateInsertBody = (object: any, collection: string) => {
 		collection: collection,
 		document: object,
 	});
+};
+
+export type User = {
+	id: string;
+	email: string;
+	firstName: string;
+	lastName: string;
+	profilePictureUrl: string;
 };

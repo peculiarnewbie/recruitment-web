@@ -5,6 +5,11 @@ import { nanoid } from "nanoid";
 import { insertDocument } from "~/helpers/mongo-helper";
 import { EmploymentTypeKeys, EmploymentTypes, Job } from "~/helpers/types";
 
+export const benefitOptions = [
+	{ value: "Work From Home", label: "Work From Home" },
+	{ value: "Paid Leave", label: "Paid Leave" },
+];
+
 export async function action({ context, request }: ActionFunctionArgs) {
 	const body = await request.formData();
 
@@ -13,6 +18,8 @@ export async function action({ context, request }: ActionFunctionArgs) {
 		title: body.get("title") as string,
 		posted: Date.now(),
 		description: body.get("description") as string,
+		detail: body.get("detail") as string,
+		benefits: JSON.parse(body.get("benefits") as string),
 		type: body.get("type") as EmploymentTypeKeys,
 	};
 
@@ -30,6 +37,10 @@ export default function CmsJobs() {
 				<input type="text" name="title" />
 				<p>description</p>
 				<textarea name="description" />
+				<p>detail</p>
+				<textarea name="detail" />
+				<p>benefits</p>
+				<textarea name="benefits" />
 				<p>employment type</p>
 				<Select name="type" placeholder="Select option">
 					{Array.from(
@@ -42,6 +53,7 @@ export default function CmsJobs() {
 				</Select>
 				<button type="submit"> Post</button>
 			</Form>
+			<p>{JSON.stringify(["hiii", "whaaa"])}</p>
 			<p>response: {JSON.stringify(response)}</p>
 		</div>
 	);

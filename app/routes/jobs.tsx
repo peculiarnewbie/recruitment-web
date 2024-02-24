@@ -30,7 +30,6 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 
 	const jobsRes = await findDocuments("Jobs", 10, context);
 	const jobs: Job[] = (await jobsRes.json()).documents;
-	console.log("jobs========================================", jobs);
 
 	return json(
 		{ jobs: jobs, jobView: jobView, selectedJob: selectedJob },
@@ -53,7 +52,7 @@ export default function Jobs() {
 			<div className="w-full text-center"> Jobs</div>
 			<div
 				className={`${
-					selectedJob !== "" ? "flex flex-col sm:flex-row" : ""
+					selectedJob !== "" ? "flex flex-col md:flex-row" : ""
 				}`}
 			>
 				<JobListing jobs={data.jobs} />
