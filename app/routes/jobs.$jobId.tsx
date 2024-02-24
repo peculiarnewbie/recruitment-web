@@ -24,7 +24,7 @@ export default function JobDetail() {
 	useEffect(() => {
 		setSelectedJobId(data.job?._id);
 		console.log("selected:", data.job?._id);
-	}, []);
+	}, [data]);
 
 	return (
 		<div className="grow">
