@@ -57,6 +57,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 }
 
 export default function Profile() {
+	const data: User = useLoaderData<typeof loader>();
 	return (
 		<div className=" container mx-auto">
 			<form className="flex flex-col gap-2 items-start" method="post">
@@ -66,6 +67,7 @@ export default function Profile() {
 						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
 						name="candidateName"
 						type="text"
+						value={data.firstName + data.lastName}
 						required={true}
 					/>
 				</div>
@@ -74,6 +76,7 @@ export default function Profile() {
 					<input
 						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
 						name="email"
+						value={data.email}
 						type="email"
 					/>
 				</div>
