@@ -1,9 +1,10 @@
 import { LoaderFunctionArgs, json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { jwtVerify } from "jose";
-import { tokenCookie } from "~/components/cookies.server";
+import { tokenCookie } from "~/helpers/cookies.server";
 
 export async function loader({ context, request }: LoaderFunctionArgs) {
+	//@ts-expect-error
 	const secret = new TextEncoder().encode(context.env.JWT_SECRET_KEY);
 
 	const cookieHeader = request.headers.get("Cookie");
@@ -27,7 +28,6 @@ export default function Profile() {
 	return (
 		<div className="">
 			<div>view</div>
-			{JSON.stringify(data.user)}
 		</div>
 	);
 }

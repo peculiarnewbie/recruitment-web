@@ -1,9 +1,10 @@
 import { LoaderFunctionArgs, json, redirect } from "@remix-run/cloudflare";
 import { Outlet } from "@remix-run/react";
 import { jwtVerify } from "jose";
-import { tokenCookie } from "~/components/cookies.server";
+import { tokenCookie } from "~/helpers/cookies.server";
 
 export async function loader({ context, request }: LoaderFunctionArgs) {
+	//@ts-expect-error
 	const secret = new TextEncoder().encode(context.env.JWT_SECRET_KEY);
 
 	const cookieHeader = request.headers.get("Cookie");
@@ -17,6 +18,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 	}
 
 	const user = verifiedToken.payload.user;
+	//@ts-expect-error
 	if (user.id !== context.env.ADMIN_USER_ID) return redirect("/401");
 
 	return json({ isAuthenticated: true }, { status: 200 });

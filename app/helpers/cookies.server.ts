@@ -7,3 +7,5 @@ export const tokenCookie = createCookie("token", {
 	secure: true,
 	sameSite: "lax",
 });
+
+export const prefs = createCookie("prefs");
