@@ -40,7 +40,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 
 export default function Jobs() {
 	const data = useLoaderData<typeof loader>();
-	const { setSelectedJobId } = useSelectedJobStore();
+	const { selectedJob, setSelectedJobId } = useSelectedJobStore();
 
 	useEffect(() => {
 		if (data.selectedJob) {
@@ -52,9 +52,11 @@ export default function Jobs() {
 		<div className=" container mx-auto">
 			<div className="w-full text-center"> Jobs</div>
 			<div
-				className={`${data.jobView ? "flex flex-col sm:flex-row" : ""}`}
+				className={`${
+					selectedJob !== "" ? "flex flex-col sm:flex-row" : ""
+				}`}
 			>
-				<JobListing jobs={data.jobs} jobView={data.jobView} />
+				<JobListing jobs={data.jobs} />
 				<Outlet />
 			</div>
 		</div>
