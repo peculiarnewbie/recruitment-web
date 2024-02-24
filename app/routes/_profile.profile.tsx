@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs, json } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, json, redirect } from "@remix-run/cloudflare";
+import { Form, useLoaderData } from "@remix-run/react";
 import { jwtVerify } from "jose";
 import { tokenCookie } from "~/helpers/cookies.server";
 
@@ -14,8 +14,12 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 	try {
 		verifiedToken = await jwtVerify(cookie.token, secret);
 	} catch {
-		return json({ isAuthenticated: false }, { status: 401 });
+		return redirect("/register?direct=true");
 	}
+
+	const user = verifiedToken.payload.user;
+	console.log("user=====================", user);
+	if (!user) return redirect("/register?direct=true");
 
 	return json(
 		{ isAuthenticated: true, user: verifiedToken.payload.user },
@@ -27,7 +31,8 @@ export default function Profile() {
 	const data = useLoaderData<typeof loader>();
 	return (
 		<div className="">
-			<div>view</div>
+			{JSON.stringify(data.user)}
+			<a href="/signOut">Sign Out</a>
 		</div>
 	);
 }

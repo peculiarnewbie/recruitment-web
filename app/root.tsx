@@ -15,15 +15,20 @@ import {
 } from "@remix-run/react";
 import styles from "./app.css";
 import Header from "./components/Header";
-import { prefs } from "./helpers/cookies.server";
+import { prefs, tokenCookie } from "./helpers/cookies.server";
 import { useEffect } from "react";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export async function loader({ request }: LoaderFunctionArgs) {
 	const cookieHeader = request.headers.get("Cookie");
-	const cookie = (await prefs.parse(cookieHeader)) || {};
-	return json({ darkTheme: cookie.darkTheme });
+	const prefsCookie = (await prefs.parse(cookieHeader)) || {};
+	const darkTheme = prefsCookie.darkTheme;
+
+	const profileCookie = (await tokenCookie.parse(cookieHeader)) || {};
+	const tokenExist = profileCookie.token ? true : false;
+
+	return json({ darkTheme: darkTheme, isSignedIn: tokenExist });
 }
 
 export async function action({ request }: ActionFunctionArgs) {

@@ -35,7 +35,11 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 
 	cookie.token = jwt;
 
-	return redirect("/profile", {
+	// check if user exists, if so go to profile
+
+	//else
+
+	return redirect("/register", {
 		headers: {
 			"Set-Cookie": await tokenCookie.serialize(cookie),
 		},

@@ -1,4 +1,8 @@
-import { ActionFunctionArgs, redirect } from "@remix-run/cloudflare";
+import {
+	ActionFunctionArgs,
+	LoaderFunctionArgs,
+	redirect,
+} from "@remix-run/cloudflare";
 import { WorkOS } from "@workos-inc/node";
 
 export async function action({ context }: ActionFunctionArgs) {
@@ -16,6 +20,11 @@ export async function action({ context }: ActionFunctionArgs) {
 	});
 
 	return redirect(authorizationUrl);
+}
+
+export async function loader({ params }: LoaderFunctionArgs) {
+	if (params.direct) return await fetch("/", { method: "POST" });
+	return true;
 }
 
 export default function Profile() {

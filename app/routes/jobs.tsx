@@ -30,7 +30,6 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 
 	const jobsRes = await findDocuments("Jobs", 10, context);
 	const jobs: Job[] = (await jobsRes.json()).documents;
-	console.log("jobs========================================", jobs);
 
 	return json(
 		{ jobs: jobs, jobView: jobView, selectedJob: selectedJob },
