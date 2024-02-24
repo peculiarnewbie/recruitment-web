@@ -2,6 +2,8 @@ import { LoaderFunctionArgs, json, redirect } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { jwtVerify } from "jose";
 import { tokenCookie } from "~/helpers/cookies.server";
+import { updateDocument } from "~/helpers/mongo-helper";
+import { User } from "~/helpers/types";
 
 export async function loader({ params, request, context }: LoaderFunctionArgs) {
 	//@ts-expect-error
@@ -17,10 +19,17 @@ export async function loader({ params, request, context }: LoaderFunctionArgs) {
 		return redirect("/register");
 	}
 
-	const user = verifiedToken.payload.user;
-	console.log("user=====================", user);
+	const user = verifiedToken.payload.user as User;
 	if (!user) return redirect("/register");
-	return { id: params.jobId };
+
+	const res = await updateDocument(
+		"Candidate",
+		user.id,
+		{ $addToSet: { appliedJobs: params.jobId } },
+		context
+	);
+
+	return redirect("/profile");
 }
 
 export default function Apply() {

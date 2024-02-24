@@ -97,7 +97,7 @@ export default function Profile() {
 						className="p-2 bg-white  dark:bg-slate-950  rounded-md"
 						name="candidateName"
 						type="text"
-						value={data.firstName + data.lastName}
+						value={data.firstName + " " + data.lastName}
 						required={true}
 					/>
 				</div>

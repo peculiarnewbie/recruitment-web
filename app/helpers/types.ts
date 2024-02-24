@@ -37,7 +37,7 @@ export type Candidate = {
 	education?: Education[];
 	experience?: Experience[];
 	files?: File[];
-	appliedJobs?: Job[];
+	appliedJobs?: string[];
 };
 
 export type Education = {

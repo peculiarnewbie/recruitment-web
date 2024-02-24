@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { jwtVerify } from "jose";
 import JobListing from "~/components/jobListing";
 import { tokenCookie } from "~/helpers/cookies.server";
-import { findDocument } from "~/helpers/mongo-helper";
+import { findDocument, findDocuments } from "~/helpers/mongo-helper";
 import { Candidate, Job, User } from "~/helpers/types";
 
 export async function loader({ context, request }: LoaderFunctionArgs) {
@@ -28,7 +28,17 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 
 	const candidate = (await res.json()).document as Candidate;
 
-	const jobs: Job[] = [];
+	const ids = [] as { _id: string }[];
+
+	candidate.appliedJobs?.forEach((jobId) => ids.push({ _id: jobId }));
+
+	console.log("ids================", ids);
+
+	const jobsRes = await findDocuments("Jobs", 10, context, { $or: ids });
+
+	const jobs = ((await jobsRes.json()).documents as Job[]) ?? [];
+
+	console.log("jobs", jobs);
 
 	return json(
 		{
@@ -78,7 +88,7 @@ export default function Profile() {
 
 			<div className=" pt-4">
 				<p className=" text-xl font-semibold">Applied Jobs</p>
-				{data.jobs.length == 0 ? (
+				{data.jobs.length === 0 ? (
 					<p>no jobs applied yet</p>
 				) : (
 					<JobListing jobs={data.jobs} />
