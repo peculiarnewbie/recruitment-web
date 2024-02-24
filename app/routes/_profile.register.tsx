@@ -1,3 +1,4 @@
+import { Input } from "@chakra-ui/react";
 import {
 	ActionFunctionArgs,
 	LoaderFunctionArgs,
@@ -60,7 +61,12 @@ export default function Profile() {
 		<div className=" container">
 			<form method="post">
 				<p>name</p>
-				<input name="candidateName" type="text" required={true} />
+				<Input
+					placeholder="Basic usage"
+					name="candidateName"
+					type="text"
+					required={true}
+				/>
 				<p>email</p>
 				<input name="email" type="email" />
 				<p>birth date</p>
