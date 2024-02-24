@@ -1,4 +1,8 @@
-import type { LinksFunction } from "@remix-run/cloudflare";
+import type {
+	ActionFunctionArgs,
+	LinksFunction,
+	LoaderFunctionArgs,
+} from "@remix-run/cloudflare";
 import {
 	Links,
 	LiveReload,
@@ -6,12 +10,40 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	json,
+	useLoaderData,
 } from "@remix-run/react";
 import styles from "./app.css";
+import Header from "./components/Header";
+import { prefs } from "./helpers/cookies.server";
+import { useEffect } from "react";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
+export async function loader({ request }: LoaderFunctionArgs) {
+	const cookieHeader = request.headers.get("Cookie");
+	const cookie = (await prefs.parse(cookieHeader)) || {};
+	return json({ darkTheme: cookie.darkTheme });
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+	const cookieHeader = request.headers.get("Cookie");
+	const cookie = (await prefs.parse(cookieHeader)) || {};
+	const formData = await request.formData();
+
+	const isDark = formData.get("darkTheme") === "true";
+	cookie.darkTheme = isDark;
+
+	return json(isDark, {
+		headers: {
+			"Set-Cookie": await prefs.serialize(cookie),
+		},
+	});
+}
+
 export default function App() {
+	let { darkTheme } = useLoaderData<typeof loader>();
+
 	return (
 		<html lang="en">
 			<head>
@@ -23,7 +55,12 @@ export default function App() {
 				<Meta />
 				<Links />
 			</head>
-			<body className=" ctp-latte bg-ctp-base text-ctp-text">
+			<body
+				className={`bg-ctp-base text-ctp-text ${
+					darkTheme ? "ctp-mocha" : "ctp-latte"
+				}`}
+			>
+				<Header />
 				<Outlet />
 				<ScrollRestoration />
 				<Scripts />
