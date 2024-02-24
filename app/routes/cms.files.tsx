@@ -7,6 +7,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
 	const form = await request.formData();
 
 	if (form?.get("_action") === "get") {
+		//@ts-expect-error
 		const bucket: R2Bucket = context.env.R2_BUCKET;
 		const object: R2ObjectBody | null = await bucket.get(
 			form.get("fileName") as string
@@ -19,6 +20,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
 	} else if (form.get("_action") === "put") {
 		console.log("try upload");
 
+		//@ts-expect-error
 		await context.env.R2_BUCKET.put(
 			form.get("fileName"),
 			form.get("file"),

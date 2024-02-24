@@ -1,12 +1,12 @@
 import { useLoaderData } from "@remix-run/react";
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import JobListing from "~/components/jobListing";
+import { Job } from "~/helpers/types";
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 	return params.jobId;
 };
 
-export default function Job() {
+export default function JobDetail(props: { job: Job }) {
 	const jobId = useLoaderData<typeof loader>();
 
 	return (

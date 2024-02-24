@@ -2,8 +2,8 @@ import { Select } from "@chakra-ui/react";
 import { ActionFunctionArgs } from "@remix-run/cloudflare";
 import { Form, useActionData } from "@remix-run/react";
 import { nanoid } from "nanoid";
-import { insertDocument } from "~/components/mongo-helper";
-import { EmploymentTypeKeys, EmploymentTypes, Job } from "~/mongodb/types";
+import { insertDocument } from "~/helpers/mongo-helper";
+import { EmploymentTypeKeys, EmploymentTypes, Job } from "~/helpers/types";
 
 export async function action({ context, request }: ActionFunctionArgs) {
 	const body = await request.formData();

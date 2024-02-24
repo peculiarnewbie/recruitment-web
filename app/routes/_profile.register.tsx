@@ -10,6 +10,7 @@ export async function action({ context }: ActionFunctionArgs) {
 	const authorizationUrl = workos.userManagement.getAuthorizationUrl({
 		provider: "authkit",
 
+		//@ts-expect-error
 		redirectUri: context.env.WORKOS_CALLBACK_URL,
 		clientId,
 	});

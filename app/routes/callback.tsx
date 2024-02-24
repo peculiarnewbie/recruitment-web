@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 import { WorkOS } from "@workos-inc/node";
 import { SignJWT } from "jose";
-import { tokenCookie } from "~/components/cookies.server";
+import { tokenCookie } from "~/helpers/cookies.server";
 
 export async function loader({ context, request }: LoaderFunctionArgs) {
 	const encoder = new TextEncoder();

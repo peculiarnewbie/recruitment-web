@@ -1,11 +1,12 @@
 import { AppLoadContext, json } from "@remix-run/cloudflare";
-import { generateInsertBody } from "~/mongodb/types";
+import { generateInsertBody } from "~/helpers/types";
 
 export async function insertDocument(
 	mongoObject: any,
 	collection: string,
 	context: AppLoadContext
 ) {
+	//@ts-expect-error
 	const url = context.env.DB_ENDPOINT_URL;
 
 	const postBody = generateInsertBody(mongoObject, collection);
@@ -16,6 +17,7 @@ export async function insertDocument(
 		body: postBody,
 		headers: {
 			Accept: "application/json",
+			//@ts-expect-error
 			apikey: context.env.DB_API_KEY,
 			"Content-Type": "application/json",
 		},

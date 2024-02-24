@@ -1,7 +1,12 @@
-export default function JobListing() {
+import { Job } from "~/helpers/types";
+import JobView from "./jobView";
+
+export default function JobListing(props: { jobs: Job[] }) {
 	return (
-		<div>
-			<div>job listing</div>
+		<div className="flex gap-2">
+			{props.jobs.map((job) => (
+				<JobView job={job} />
+			))}
 		</div>
 	);
 }
