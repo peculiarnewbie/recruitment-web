@@ -21,6 +21,12 @@ function Header() {
 			<div className="container flex justify-between px-6">
 				<nav className="flex items-center gap-4 font-semibold">
 					<a
+						href="/"
+						className=" border-b-2 border-transparent hover:border-ctp-blue"
+					>
+						Home
+					</a>
+					<a
 						href="/jobs"
 						className=" border-b-2 border-transparent hover:border-ctp-blue"
 					>

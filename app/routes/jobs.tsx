@@ -48,8 +48,8 @@ export default function Jobs() {
 	}, []);
 
 	return (
-		<div className=" container mx-auto">
-			<div className="w-full text-center"> Jobs</div>
+		<div className=" container mx-auto p-4">
+			<div className="w-full text-center text-xl"> Jobs List</div>
 			<div
 				className={`${
 					selectedJob !== "" ? "flex flex-col md:flex-row" : ""
