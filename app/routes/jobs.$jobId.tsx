@@ -16,7 +16,13 @@ export default function JobDetail() {
 		<div className="grow">
 			<div className="flex justify-between p-2 items-center">
 				<h1 className=" text-3xl font-bold">{data.job?.title}</h1>
-				<button className="p-2 bg-ctp-blue">Lamar</button>
+				<a
+					href={`/apply/${data.job?._id}`}
+					className="p-2 bg-ctp-blue"
+					type="submit"
+				>
+					Lamar
+				</a>
 			</div>
 			<div>{data.job?._id}</div>
 			<div>{data.job?.description}</div>

@@ -6,6 +6,8 @@ import { dummyJobs } from "~/helpers/dummyData";
 
 import { create } from "zustand";
 import { useEffect } from "react";
+import { findDocuments } from "~/helpers/mongo-helper";
+import { Job } from "~/helpers/types";
 
 export type selectedJobStore = {
 	selectedJob: string;
@@ -17,7 +19,7 @@ export const useSelectedJobStore = create<selectedJobStore>()((set) => ({
 	setSelectedJobId: (jobId: string) => set({ selectedJob: jobId }),
 }));
 
-export function loader({ context, request }: LoaderFunctionArgs) {
+export async function loader({ context, request }: LoaderFunctionArgs) {
 	const url = new URL(request.url);
 	const routes = url.pathname.split("/");
 	let jobView = false;
@@ -25,9 +27,13 @@ export function loader({ context, request }: LoaderFunctionArgs) {
 	if (selectedJob) {
 		jobView = true;
 	}
-	console.log(routes);
+
+	const jobsRes = await findDocuments("Jobs", 10, context);
+	const jobs: Job[] = (await jobsRes.json()).documents;
+	console.log("jobs========================================", jobs);
+
 	return json(
-		{ jobs: dummyJobs, jobView: jobView, selectedJob: selectedJob },
+		{ jobs: jobs, jobView: jobView, selectedJob: selectedJob },
 		{ status: 200 }
 	);
 }

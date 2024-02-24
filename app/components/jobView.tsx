@@ -8,19 +8,20 @@ dayjs.extend(relativeTime);
 export default function JobView(props: { job: Job; jobView: boolean }) {
 	const { selectedJob } = useSelectedJobStore();
 	return (
-		<form
+		<div
 			className={`transition-all duration-200 border-2 border-ctp-surface0 hover:border-ctp-blue flex rounded-md group min-w-72 ${
 				selectedJob == props.job._id
 					? "bg-ctp-blue/20 border-ctp-blue/40"
 					: ""
 			}`}
-			action={`/jobs/${props.job._id}`}
-			method="get"
 		>
 			{!props.jobView && (
 				<div className="w-0 bg-ctp-blue transition-all duration-200 group-hover:w-1" />
 			)}
-			<button className="w-full text-start p-2" type="submit">
+			<a
+				href={`/jobs/${props.job._id}`}
+				className="w-full text-start p-2"
+			>
 				<div className=" font-semibold text-2xl">{props.job.title}</div>
 
 				<div className=" text-ctp-subtext0">{props.job.type}</div>
@@ -36,7 +37,7 @@ export default function JobView(props: { job: Job; jobView: boolean }) {
 						{props.jobView ? "" : "view details ->"}
 					</div>
 				</div>
-			</button>
-		</form>
+			</a>
+		</div>
 	);
 }
