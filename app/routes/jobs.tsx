@@ -52,7 +52,7 @@ export default function Jobs() {
 			<div className="w-full text-center"> Jobs</div>
 			<div
 				className={`${
-					selectedJob !== "" ? "flex flex-col sm:flex-row" : ""
+					selectedJob !== "" ? "flex flex-col md:flex-row" : ""
 				}`}
 			>
 				<JobListing jobs={data.jobs} />

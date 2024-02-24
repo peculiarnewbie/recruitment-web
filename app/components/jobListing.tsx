@@ -6,7 +6,7 @@ export default function JobListing(props: { jobs: Job[] }) {
 	const { selectedJob } = useSelectedJobStore();
 	return (
 		<div
-			className={` p-2 grid  gap-2 shrink min-w-0 basis-1/3 h-fit ${
+			className={` p-4 grid  gap-2 shrink min-w-0 basis-1/3 h-fit ${
 				selectedJob !== "" ? "grid-cols-1" : "grid-cols-2"
 			}`}
 		>
