@@ -34,11 +34,13 @@ function Header() {
 							Profile
 						</a>
 					) : (
-						<Form action="/register" method="post">
-							<button type="submit">Sign in</button>
-						</Form>
+						<a
+							href="/register"
+							className=" border-b-2 border-transparent hover:border-ctp-blue"
+						>
+							Sign In
+						</a>
 					)}
-					<p>{darkTheme.toString()}</p>
 				</nav>
 				<div className="flex gap-4 items-center">
 					<fetcher.Form method="post">

@@ -14,12 +14,12 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 	try {
 		verifiedToken = await jwtVerify(cookie.token, secret);
 	} catch {
-		return redirect("/register?direct=true");
+		return redirect("/register");
 	}
 
 	const user = verifiedToken.payload.user;
 	console.log("user=====================", user);
-	if (!user) return redirect("/register?direct=true");
+	if (!user) return redirect("/register");
 
 	return json(
 		{ isAuthenticated: true, user: verifiedToken.payload.user },
