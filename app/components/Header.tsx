@@ -1,4 +1,3 @@
-import { useEffect, useLayoutEffect, useState } from "react";
 import { github, moon, sun } from "./icons";
 import {
 	ActionFunctionArgs,
@@ -15,22 +14,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 function Header() {
-	// useLayoutEffect(() => {
-	// 	const dark = window.localStorage.getItem("darkTheme");
-	// 	console.log("dark", dark);
-	// 	if (!dark || dark == "true") {
-	// 		toggleDarkTheme(true);
-	// 	} else toggleDarkTheme(false);
-	// }, []);
-
-	// const toggleDarkTheme = (newTheme: boolean) => {
-	// 	setDarkTheme(newTheme);
-	// 	window.localStorage.setItem("darkTheme", newTheme.toString());
-	// 	if (newTheme)
-	// 		document.body.className = "ctp-mocha bg-ctp-base text-ctp-text";
-	// 	else document.body.className = "ctp-latte bg-ctp-base text-ctp-text";
-	// };
-
 	const fetcher = useFetcher();
 	let { darkTheme } = useLoaderData<typeof loader>();
 
@@ -41,7 +24,10 @@ function Header() {
 	return (
 		<header className=" shrink-0 flex justify-center bg-ctp-crust h-14 items-center">
 			<div className="container flex justify-between px-6">
-				<div className="flex items-center">logo</div>
+				<nav className="flex items-center">
+					<a href="/jobs">Jobs</a>
+					<a href="/profile">Profile</a>
+				</nav>
 				<div className="flex gap-4 items-center">
 					<fetcher.Form method="post">
 						<button
