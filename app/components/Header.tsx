@@ -64,7 +64,7 @@ function Header() {
 					<div className="h-8 w-[2px] bg-ctp-surface0 rounded-full" />
 					<a
 						target="_blank"
-						href="https://github.com/peculiarnewbie/frontend-workshop/tree/master/examples/remix-todo"
+						href="https://github.com/peculiarnewbie/recruitment-web"
 						className="bg-ctp-surface0 rounded-full p-1 border-ctp-surface0 hover:border-ctp-blue border"
 					>
 						<div className="scale-75">{github}</div>

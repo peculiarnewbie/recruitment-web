@@ -36,7 +36,7 @@ export default function JobView(props: { job: Job }) {
 						}
 					</div>
 					<div className=" opacity-0 transition-opacity group-hover:opacity-100">
-						{selectedJob === "" ? "" : "view details ->"}
+						{selectedJob !== "" ? "" : "view details ->"}
 					</div>
 				</div>
 			</Link>

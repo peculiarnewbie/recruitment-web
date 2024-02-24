@@ -12,6 +12,8 @@ export type Job = {
 	title: string;
 	posted: number;
 	description: string;
+	detail: string;
+	benefits: string[];
 	type: EmploymentTypeKeys;
 };
 
